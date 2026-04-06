@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструирование юбки с отлетной кокеткой</title>
+    <style>
+        @import url('https://cdn.fontsource.org/fonts/inter/400.css');
+        @import url('https://cdn.fontsource.org/fonts/inter/600.css');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 24px 32px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 16px 24px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            border: 2px solid #1a1a2e;
+            background: white;
+            color: #1a1a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .controls button:hover {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .controls button.active {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .view-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .pattern-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border: 1px solid #e8e8e8;
+        }
+
+        .pattern-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .pattern-card h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pattern-card h3 .badge {
+            background: #e8e8ff;
+            color: #1a1a2e;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .svg-container {
+            background: #fafbfc;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #eee;
+            overflow-x: auto;
+        }
+
+        .measurements-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        .measurements-table th,
+        .measurements-table td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .measurements-table th {
+            background: #f5f5f5;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        .measurements-table td {
+            color: #333;
+        }
+
+        .construction-steps {
+            list-style: none;
+            padding: 0;
+        }
+
+        .construction-steps li {
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            background: #fafbfc;
+            border-radius: 10px;
+            border-left: 3px solid #1a1a2e;
+            font-size: 14px;
+            line-height: 1.6;
+            position: relative;
+            transition: background 0.2s;
+        }
+
+        .construction-steps li:hover {
+            background: #f0f0ff;
+        }
+
+        .construction-steps li .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #1a1a2e;
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .fabric-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .fabric-item {
+            background: #fafbfc;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .fabric-item .icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .fabric-item h4 {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .fabric-item p {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .size-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .size-btn {
+            width: 44px;
+            height: 44px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .size-btn:hover {
+            border-color: #1a1a2e;
+        }
+
+        .size-btn.active {
+            background: #1a1a2e;
+            color: white;
+            border-color: #1a1a2e;
+        }
+
+        .info-callout {
+            background: linear-gradient(135deg, #e8e8ff 0%, #f0f0ff 100%);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-size: 13px;
+            line-height: 1.6;
+            border: 1px solid #d0d0f0;
+        }
+
+        .info-callout strong {
+            color: #1a1a2e;
+        }
+
+        .color-swatch {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-right: 6px;
+            border: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .pattern-grid {
+                grid-template-columns: 1fr;
+            }
+            .fabric-info {
+                grid-template-columns: 1fr;
+            }
+            .controls {
+                padding: 12px 16px;
+            }
+        }
+
+        .annotation {
+            font-family: 'Inter', monospace;
+            font-size: 10px;
+        }
+
+        .tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dashed #1a1a2e;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a2e;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .section-desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>✂️ Конструирование юбки-карандаш с отлетной кокеткой</h1>
+    <p>Интерактивное построение выкройки с асимметричным передним полотнищем</p>
+</header>
+
+<div class="controls">
+    <button class="active" onclick="showView('measurements')">📏 Мерки и размеры</button>
+    <button onclick="showView('front')">📐 Переднее полотнище</button>
+    <button onclick="showView('back')">📐 Заднее полотнище</button>
+    <button onclick="showView('yoke')">🔲 Отлетная кокетка</button>
+    <button onclick="showView('assembly')"> Конструкция и сборка</button>
+    <button onclick="showView('fabric')">🧵 Ткань и расход</button>
+</div>
+
+<div class="main-content">
+
+    <!-- MEASUREMENTS VIEW -->
+    <div id="view-measurements" class="view-section active">
+        <h2 class="section-title">Исходные мерки</h2>
+        <p class="section-desc">Введите свои мерки или используйте стандартные значения для построения выкройки</p>
+
+        <div class="size-selector">
+            <button class="size-btn active" onclick="selectSize(44)">44</button>
+            <button class="size-btn" onclick="selectSize(46)">46</button>
+            <button class="size-btn" onclick="selectSize(48)">48</button>
+            <button class="size-btn" onclick="selectSize(50)">50</button>
+            <button class="size-btn" onclick="selectSize(52)">52</button>
+            <button class="size-btn" onclick="selectSize(54)">54</button>
+        </div>
+
+        <div class="pattern-grid">
+            <div class="pattern-card full-width">
+                <h3>📏 Таблица мерок <span class="badge">размер <span id="sizeLabel">44</span></span></h3>
+                <table class="measurements-table">
+                    <thead>
+                        <tr>
+                            <th>Название мерки</th>
+                            <th>Обозначение</th>
+                            <th>Значение, см</th>
+                            <th>Примечание</th>
+                        </tr>
+                    </thead>
+                    <tbody id="measurementsBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pattern-card">
+                <h3>📐 Прибавки к конструкции</h3>
+                <table class="measurements-table">
+                    <tr><td>Полуобхват талии</td><td>Пт</td><td>1.0 см</td></tr>
+                    <tr><td>Полуобхват бедер</td><td>Пб</td><td>2.0 см</td></tr>
+                    <tr><td>Прибавка на свободу</td><td>Пс</td><td>0.5 см</td></tr>
+                    <tr><td>Ширина кокетки</td><td>—</td><td>4.0 см</td></tr>
+                </table>
+            </div>
+
+            <div class="pattern-card">
+                <h3>📊 Расчётные величины</h3>
+                <table class="measurements-table" id="calculatedTable">
+                </table>
+            </div>
+        </div>
+
+        <div class="info-callout">
+            <strong>💡 Отлетная кокетка</strong> — это отдельная деталь пояса, которая настрачивается поверх основного шва талии, создавая эффект «плавающего» пояса. В данном случае кокетка шириной 4 см заходит на основное полотнище на 0.5 см, создавая декоративную ступеньку.
+        </div>
+    </div>
+
+    <!-- FRONT VIEW -->
+    <div id="view-front" class="view-section">
+        <h2 class="section-title">Переднее полотнище юбки</h2>
+        <p class="section-desc">Основное полотнище с асимметричной накладной деталью и декоративными пуговицами</p>
+
+        <div class="pattern-grid">
+            <div class="pattern-card full-width">
+                <h3>📐 Выкройка переднего полотнища</h3>
+                <div class="svg-container">
+                    <svg id="frontSvg" viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="gridFront" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="700" height="600" fill="url(#gridFront)"/>
+
+                        <!-- Front base piece -->
+                        <g id="frontBase">
+                            <!-- Main front piece outline -->
+                            <path d="M 80,80 L 80,540 L 280,540 L 280,80 Z"
+                                  fill="rgba(26,26,46,0.05)" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Waist curve -->
+                            <path d="M 80,80 Q 180,70 280,80"
+                                  fill="none" stroke="#1a1a2e" stroke-width="1.5"/>
+
+                            <!-- Side seam -->
+                            <line x1="280" y1="80" x2="280" y2="540" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Center front -->
+                            <line x1="80" y1="80" x2="80" y2="540" stroke="#1a1a2e" stroke-width="2" stroke-dasharray="8,4"/>
+
+                            <!-- Hem line -->
+                            <line x1="80" y1="540" x2="280" y2="540" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Hip line -->
+                            <line x1="80" y1="260" x2="280" y2="260" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+
+                            <!-- Center front line -->
+                            <line x1="180" y1="80" x2="180" y2="540" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+
+                            <!-- Waist dart -->
+                            <path d="M 155,80 L 160,160 L 165,80" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+
+                            <!-- Side dart -->
+                            <path d="M 255,80 L 260,155 L 265,80" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+
+                            <!-- Labels -->
+                            <text x="60" y="75" class="annotation" fill="#1a1a2e">ЦП</text>
+                            <text x="285" y="75" class="annotation" fill="#1a1a2e">ББ</text>
+                            <text x="85" y="550" class="annotation" fill="#1a1a2e">Линия низа</text>
+
+                            <!-- Dimension lines -->
+                            <!-- Length -->
+                            <line x1="50" y1="80" x2="50" y2="540" stroke="#1a1a2e" stroke-width="1"/>
+                            <line x1="45" y1="80" x2="55" y2="80" stroke="#1a1a2e" stroke-width="1"/>
+                            <line x1="45" y1="540" x2="55" y2="540" stroke="#1a1a2e" stroke-width="1"/>
+                            <text x="38" y="315" class="annotation" fill="#1a1a2e" transform="rotate(-90,38,315)" id="lengthDim">57</text>
+                        </g>
+
+                        <!-- Asymmetric overlay piece -->
+                        <g id="asymmetricOverlay">
+                            <path d="M 80,100 L 80,480 L 200,480 L 260,380 L 280,200 L 280,100 Z"
+                                  fill="rgba(26,26,46,0.12)" stroke="#1a1a2e" stroke-width="2" stroke-dasharray="6,3"/>
+
+                            <!-- Diagonal edge -->
+                            <line x1="280" y1="200" x2="200" y2="480" stroke="#e74c3c" stroke-width="2.5"/>
+
+                            <!-- Button placements -->
+                            <circle cx="268" cy="170" r="5" fill="white" stroke="#1a1a2e" stroke-width="2"/>
+                            <circle cx="265" cy="210" r="5" fill="white" stroke="#1a1a2e" stroke-width="2"/>
+                            <text x="278" y="174" class="annotation" fill="#1a1a2e">⌀1.5</text>
+                            <text x="275" y="214" class="annotation" fill="#1a1a2e">⌀1.5</text>
+
+                            <!-- Buttonhole marks -->
+                            <line x1="258" y1="170" x2="262" y2="170" stroke="#1a1a2e" stroke-width="1"/>
+                            <line x1="255" y1="210" x2="259" y2="210" stroke="#1a1a2e" stroke-width="1"/>
+
+                            <!-- Overlay label -->
+                            <text x="160" y="350" class="annotation" fill="#1a1a2e" text-anchor="middle" font-weight="600">Накладная</text>
+                            <text x="160" y="365" class="annotation" fill="#1a1a2e" text-anchor="middle" font-weight="600">деталь</text>
+                        </g>
+
+                        <!-- Seam allowance indicators -->
+                        <g id="seamAllowance">
+                            <text x="320" y="100" class="annotation" fill="#888">Припуски:</text>
+                            <text x="320" y="118" class="annotation" fill="#888">Бока — 1.5 см</text>
+                            <text x="320" y="136" class="annotation" fill="#888">Низ — 3 см</text>
+                            <text x="320" y="154" class="annotation" fill="#888">Талия — 1 см</text>
+                            <text x="320" y="172" class="annotation" fill="#888">Срез — 1.5 см</text>
+                        </g>
+
+                        <!-- Construction lines -->
+                        <g id="constructionLines">
+                            <!-- Hip line label -->
+                            <text x="285" y="260" class="annotation" fill="#666">ЛБ — линия бедер</text>
+
+                            <!-- Knee line -->
+                            <line x1="80" y1="390" x2="280" y2="390" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+                            <text x="285" y="390" class="annotation" fill="#666">ЛК — линия колена</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="pattern-card">
+                <h3>📏 Параметры переднего полотнища</h3>
+                <table class="measurements-table" id="frontParamsTable">
+                </table>
+            </div>
+
+            <div class="pattern-card">
+                <h3>🔩 Накладная деталь (асимметрия)</h3>
+                <table class="measurements-table" id="overlayParamsTable">
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- BACK VIEW -->
+    <div id="view-back" class="view-section">
+        <h2 class="section-title">Заднее полотнище юбки</h2>
+        <p class="section-desc">Классическое заднее полотнище с разрезом и шлицей для свободы движений</p>
+
+        <div class="pattern-grid">
+            <div class="pattern-card full-width">
+                <h3>📐 Выкройка заднего полотнища</h3>
+                <div class="svg-container">
+                    <svg id="backSvg" viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="gridBack" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="700" height="600" fill="url(#gridBack)"/>
+
+                        <!-- Back base piece -->
+                        <g id="backBase">
+                            <!-- Main back piece -->
+                            <path d="M 80,80 L 80,540 L 280,540 L 280,80 Z"
+                                  fill="rgba(26,26,46,0.05)" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Waist curve (more pronounced for back) -->
+                            <path d="M 80,80 Q 180,65 280,80"
+                                  fill="none" stroke="#1a1a2e" stroke-width="1.5"/>
+
+                            <!-- Center back -->
+                            <line x1="180" y1="80" x2="180" y2="540" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Side seam -->
+                            <line x1="280" y1="80" x2="280" y2="540" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Hip line -->
+                            <line x1="80" y1="260" x2="280" y2="260" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+
+                            <!-- Knee line -->
+                            <line x1="80" y1="390" x2="280" y2="390" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+
+                            <!-- Hem -->
+                            <line x1="80" y1="540" x2="280" y2="540" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Center back seam (with zipper area) -->
+                            <line x1="180" y1="80" x2="180" y2="200" stroke="#e74c3c" stroke-width="2"/>
+                            <line x1="180" y1="200" x2="180" y2="540" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Zipper indication -->
+                            <rect x="176" y="80" width="8" height="120" fill="rgba(231,76,60,0.1)" stroke="#e74c3c" stroke-width="1"/>
+                            <text x="190" y="140" class="annotation" fill="#e74c3c">Молния</text>
+
+                            <!-- Back darts -->
+                            <path d="M 130,80 L 132,170 L 134,80" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+                            <path d="M 226,80 L 228,165 L 230,80" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
+
+                            <!-- Labels -->
+                            <text x="60" y="75" class="annotation" fill="#1a1a2e">ЦС</text>
+                            <text x="285" y="75" class="annotation" fill="#1a1a2e">ББ</text>
+                            <text x="185" y="72" class="annotation" fill="#1a1a2e">ЦЗ</text>
+
+                            <!-- Length dimension -->
+                            <line x1="300" y1="80" x2="300" y2="540" stroke="#1a1a2e" stroke-width="1"/>
+                            <line x1="295" y1="80" x2="305" y2="80" stroke="#1a1a2e" stroke-width="1"/>
+                            <line x1="295" y1="540" x2="305" y2="540" stroke="#1a1a2e" stroke-width="1"/>
+                            <text x="312" y="315" class="annotation" fill="#1a1a2e" transform="rotate(-90,312,315)">57</text>
+
+                            <!-- Vent / slit at back -->
+                            <line x1="180" y1="440" x2="200" y2="440" stroke="#e74c3c" stroke-width="1.5"/>
+                            <line x1="200" y1="440" x2="200" y2="540" stroke="#e74c3c" stroke-width="1.5"/>
+                            <text x="205" y="490" class="annotation" fill="#e74c3c">Шлица</text>
+                            <text x="205" y="505" class="annotation" fill="#e74c3c">20 см</text>
+                        </g>
+
+                        <!-- Seam allowance info -->
+                        <g>
+                            <text x="340" y="100" class="annotation" fill="#888">Припуски:</text>
+                            <text x="340" y="118" class="annotation" fill="#888">Бока — 1.5 см</text>
+                            <text x="340" y="136" class="annotation" fill="#888">Центр спинки — 1.5 см</text>
+                            <text x="340" y="154" class="annotation" fill="#888">Низ — 3 см</text>
+                            <text x="340" y="172" class="annotation" fill="#888">Талия — 1 см</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="pattern-card">
+                <h3>📏 Параметры заднего полотнища</h3>
+                <table class="measurements-table" id="backParamsTable">
+                </table>
+            </div>
+
+            <div class="pattern-card">
+                <h3>🔧 Особенности конструкции</h3>
+                <ul style="font-size: 13px; line-height: 2; list-style: none; padding: 0;">
+                    <li>✅ Разрез по центру спинки — 20 см</li>
+                    <li>✅ Скрытая молния — 18 см</li>
+                    <li>✅ Шлица обработана обтачкой</li>
+                    <li>✅ Два вытачки для посадки по фигуре</li>
+                    <li>✅ Линия бедер — 20 см от талии</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- YOKE VIEW -->
+    <div id="view-yoke" class="view-section">
+        <h2 class="section-title">Отлетная кокетка</h2>
+        <p class="section-desc">Отдельная деталь пояса шириной 4 см, настрачиваемая поверх основного шва талии</p>
+
+        <div class="pattern-grid">
+            <div class="pattern-card full-width">
+                <h3> Выкройка отлетной кокетки</h3>
+                <div class="svg-container">
+                    <svg id="yokeSvg" viewBox="0 0 700 500" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="gridYoke" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+                            </pattern>
+                        </defs>
+                        <rect width="700" height="500" fill="url(#gridYoke)"/>
+
+                        <!-- Main yoke piece (front + back) -->
+                        <g id="yokePiece">
+                            <!-- Yoke outline -->
+                            <path d="M 80,80 L 80,180 L 620,180 L 620,80 Z"
+                                  fill="rgba(26,26,46,0.08)" stroke="#1a1a2e" stroke-width="2.5"/>
+
+                            <!-- Center back seam -->
+                            <line x1="350" y1="80" x2="350" y2="180" stroke="#1a1a2e" stroke-width="1.5"/>
+
+                            <!-- Side seams -->
+                            <line x1="200" y1="80" x2="200" y2="180" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+                            <line x1="500" y1="80" x2="500" y2="180" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+
+                            <!-- Center front -->
+                            <line x1="80" y1="80" x2="80" y2="180" stroke="#e74c3c" stroke-width="2"/>
+
+                            <!-- Label for center back -->
+                            <text x="340" y="170" class="annotation" fill="#1a1a2e" text-anchor="middle">ЦЗ</text>
+
+                            <!-- Label for center front -->
+                            <text x="70" y="170" class="annotation" fill="#e74c3c" text-anchor="middle">ЦП</text>
+
+                            <!-- Labels -->
+                            <text x="95" y="105" class="annotation" fill="#1a1a2e" font-weight="600">ПЕРЕД</text>
+                            <text x="215" y="105" class="annotation" fill="#1a1a2e" font-weight="600">БОК</text>
+                            <text x="365" y="105" class="annotation" fill="#1a1a2e" font-weight="600">СПИНКА</text>
+                            <text x="515" y="105" class="annotation" fill="#1a1a2e" font-weight="600">БОК</text>
+
+                            <!-- Yoke width dimension -->
+                            <line x1="640" y1="80" x2="640" y2="180" stroke="#1a1a2e" stroke-width="1"/>
+                            <line x1="635" y1="80" x2="645" y2="80" stroke="#1a1a2e" stroke-width="1"/>
+                            <line x1="635" y1="180" x2="645" y2="180" stroke="#1a1a2e" stroke-width="1"/>
+                            <text x="650" y="135" class="annotation" fill="#1a1a2e" transform="rotate(-90,650,135)">4.0 см</text>
+
+                            <!-- Total width -->
+                            <line x1="80" y1="200" x2="620" y2="200" stroke="#1a1a2e" stroke-width="1"/>
+                            <text x="350" y="220" class="annotation" fill="#1a1a2e" text-anchor="middle">Общая ширина кокетки</text>
+                        </g>
+
+                        <!-- Construction diagram showing how yoke sits on top -->
+                        <g id="yokeConstruction">
+                            <!-- Base skirt waist area -->
+                            <rect x="80" y="300" width="540" height="80" fill="rgba(26,26,46,0.03)" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+                            <text x="350" y="345" class="annotation" fill="#666" text-anchor="middle">Основное полотнище (линия талии)</text>
+
+                            <!-- Yoke sitting on top (offset) -->
+                            <rect x="75" y="280" width="550" height="60" fill="rgba(26,26,46,0.15)" stroke="#1a1a2e" stroke-width="2"/>
+                            <text x="350" y="315" class="annotation" fill="#1a1a2e" text-anchor="middle" font-weight="600">Отлетная кокетка</text>
+
+                            <!-- Offset arrow -->
+                            <line x1="650" y1="280" x2="650" y2="300" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrowRed)"/>
+                            <text x="665" y="295" class="annotation" fill="#e74c3c">0.5 см</text>
+                            <text x="665" y="308" class="annotation" fill="#e74c3c">нахлёст</text>
+
+                            <!-- Stitch line -->
+                            <line x1="80" y1="300" x2="620" y2="300" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="6,3"/>
+                            <text x="350" y="295" class="annotation" fill="#e74c3c" text-anchor="middle">Строчка настрочивания</text>
+                        </g>
+
+                        <defs>
+                            <marker id="arrowRed" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#e74c3c"/>
+                            </marker>
+                        </defs>
+
+                        <!-- Seam allowance info -->
+                        <g>
+                            <text x="80" y="430" class="annotation" fill="#888">Припуски:</text>
+                            <text x="80" y="448" class="annotation" fill="#888">Верхний край — 1 см (подгиб внутрь)</text>
+                            <text x="80" y="466" class="annotation" fill="#888">Нижний край — 1.5 см (настрочивание)</text>
+                            <text x="80" y="484" class="annotation" fill="#888">Боковые срезы — 1.5 см</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="pattern-card">
+                <h3>📏 Параметры кокетки</h3>
+                <table class="measurements-table" id="yokeParamsTable">
+                </table>
+            </div>
+
+            <div class="pattern-card">
+                <h3>🔧 Технология обработки</h3>
+                <ul style="font-size: 13px; line-height: 2; list-style: none; padding: 0;">
+                    <li>✅ Кокетка выкраивается с припусками</li>
+                    <li>✅ Верхний край подгибается на 1 см и пристрачивается</li>
+                    <li>✅ Нижний край пристрачивается поверх шва талии</li>
+                    <li>✅ Отступ от шва талии — 0.5 см (нахлёст)</li>
+                    <li>✅ Строчка — 2-3 мм от края кокетки</li>
+                    <li>✅ Углы скруглены для аккуратного вида</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-callout">
+            <strong>💡 Принцип отлетной кокетки:</strong> Кокетка не пришивается в шов талии, а настрачивается поверх основного изделия, заходя на 0.5 см ниже линии шва. Это создаёт декоративную «ступеньку» и визуально удлиняет линию талии. Нижняя строчка фиксирует кокетку к основному полотнищу.
+        </div>
+    </div>
+
+    <!-- ASSEMBLY VIEW -->
+    <div id="view-assembly" class="view-section">
+        <h2 class="section-title">Пошаговая сборка юбки</h2>
+        <p class="section-desc">Полный порядок операций от раскроя до финальной обработки</p>
+
+        <div class="pattern-grid">
+            <div class="pattern-card full-width">
+                <h3>🔧 Последовательность операций</h3>
+                <ul class="construction-steps" id="assemblySteps">
+                    <li><span class="step-num">1</span> <strong>Раскрой деталей.</strong> Раскроить основное полотнище (переднее и заднее), накладную переднюю деталь, отлетную кокетку и подкладку. Перенести все контрольные метки.</li>
+                    <li><span class="step-num">2</span> <strong>Обработка вытачек.</strong> Застрочить вытачки на переднем и заднем полотнищах. Передние вытачки заутюжить к центру, задние — к центру спинки. Припуски вытачек разутюжить.</li>
+                    <li><span class="step-num">3</span> <strong>Соединение боковых швов.</strong> Сметать и стачать боковые швы переднего и заднего полотнищ. Швы разутюжить. Обработать срезы оверлоком или зигзагом.</li>
+                    <li><span class="step-num">4</span> <strong>Обработка накладной детали.</strong> Обработать нижний срез накладной передней детали. Наложить деталь на переднее полотнище, совместив боковой срез. Закрепить булавками.</li>
+                    <li><span class="step-num">5</span> <strong>Обработка молнии.</strong> Втачать потайную молнию в задний средний шов. Длина молнии — 18 см. Нижний конец молнии — на уровне линии бедер.</li>
+                    <li><span class="step-num">6</span> <strong>Обработка кокетки.</strong> Подогнуть и застрочить верхний край кокетки. При необходимости продублировать клеевой прокладкой для жёсткости.</li>
+                    <li><span class="step-num">7</span> <strong>Притачивание кокетки.</strong> Наложить кокетку на линию талии с заходом 0.5 см ниже шва. Притачать по нижнему краю на расстоянии 2-3 мм от среза кокетки. Закрепить начало и конец строчки.</li>
+                    <li><span class="step-num">8</span> <strong>Закрепление пуговиц.</strong> Разметить места для двух декоративных пуговиц на накладной детали. Пришить пуговицы (⌀1.5 см, белый цвет). Выполнить петли-навески под пуговицы.</li>
+                    <li><span class="step-num">9</span> <strong>Обработка шлицы.</strong> Обработать шлицу на заднем полотнище шириной 3-4 см. Закрепить верхнюю точку шлицы закрепкой.</li>
+                    <li><span class="step-num">10</span> <strong>Подклад.</strong> Сшить подклад по тем же лекалам (без кокетки). Подшить подклад к основному изделию по талии и низу.</li>
+                    <li><span class="step-num">11</span> <strong>Обработка низа.</strong> Подогнуть низ юбки на 3 см. Подшить потайным швом или машинной строчкой. Разутюжить подгиб.</li>
+                    <li><span class="step-num">12</span> <strong>Финальная ВТО.</strong> Провести влажно-тепловую обработку всего изделия. Проверить симметрию, качество строчек, работу молнии. Юбка готова!</li>
+                </ul>
+            </div>
+
+            <div class="pattern-card full-width">
+                <h3>📐 Схема сборки (вид спереди)</h3>
+                <div class="svg-container">
+                    <svg id="assemblySvg" viewBox="0 0 700 500" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Background -->
+                        <rect width="700" height="500" fill="#fafbfc"/>
+
+                        <!-- Skirt body -->
+                        <g id="assemblySkirt">
+                            <!-- Main skirt body -->
+                            <path d="M 200,120 L 200,450 L 500,450 L 500,120 Z"
+                                  fill="rgba(26,26,46,0.08)" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Waist line -->
+                            <line x1="200" y1="120" x2="500" y2="120" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Asymmetric overlay -->
+                            <path d="M 200,140 L 200,380 L 380,380 L 460,280 L 500,180 L 500,140 Z"
+                                  fill="rgba(26,26,46,0.15)" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Diagonal edge -->
+                            <line x1="500" y1="180" x2="380" y2="380" stroke="#e74c3c" stroke-width="2.5"/>
+
+                            <!-- Buttons -->
+                            <circle cx="488" cy="200" r="7" fill="white" stroke="#1a1a2e" stroke-width="2"/>
+                            <circle cx="485" cy="240" r="7" fill="white" stroke="#1a1a2e" stroke-width="2"/>
+
+                            <!-- Yoke (отлетная кокетка) -->
+                            <rect x="195" y="100" width="310" height="40" fill="rgba(26,26,46,0.2)" stroke="#1a1a2e" stroke-width="2.5"/>
+
+                            <!-- Yoke label -->
+                            <text x="350" y="125" class="annotation" fill="white" text-anchor="middle" font-weight="600">Отлетная кокетка</text>
+
+                            <!-- Stitch line on yoke -->
+                            <line x1="195" y1="140" x2="505" y2="140" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="6,3"/>
+
+                            <!-- Annotations -->
+                            <text x="510" y="140" class="annotation" fill="#e74c3c">Строчка 2мм</text>
+                            <text x="510" y="155" class="annotation" fill="#e74c3c">от края</text>
+
+                            <!-- Offset arrow -->
+                            <line x1="195" y1="120" x2="195" y2="140" stroke="#e74c3c" stroke-width="1.5"/>
+                            <text x="175" y="135" class="annotation" fill="#e74c3c">0.5см</text>
+
+                            <!-- Length annotation -->
+                            <line x1="530" y1="120" x2="530" y2="450" stroke="#1a1a2e" stroke-width="1"/>
+                            <text x="545" y="290" class="annotation" fill="#1a1a2e" transform="rotate(-90,545,290)">Длина 57 см</text>
+
+                            <!-- Side seam -->
+                            <line x1="500" y1="120" x2="500" y2="450" stroke="#666" stroke-width="1"/>
+                            <text x="505" y="300" class="annotation" fill="#666" transform="rotate(-90,505,300)">Боковой шов</text>
+
+                            <!-- Hip line -->
+                            <line x1="200" y1="200" x2="500" y2="200" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+                            <text x="505" y="200" class="annotation" fill="#666">ЛБ</text>
+
+                            <!-- Knee line -->
+                            <line x1="200" y1="320" x2="500" y2="320" stroke="#666" stroke-width="1" stroke-dasharray="4,4"/>
+                            <text x="505" y="320" class="annotation" fill="#666">ЛК</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FABRIC VIEW -->
+    <div id="view-fabric" class="view-section">
+        <h2 class="section-title">Ткань и расход</h2>
+        <p class="section-desc">Рекомендации по выбору ткани и расчёт необходимого количества</p>
+
+        <div class="pattern-grid">
+            <div class="pattern-card full-width">
+                <h3>🧵 Рекомендуемые ткани</h3>
+                <div class="fabric-info">
+                    <div class="fabric-item">
+                        <div class="icon">👗</div>
+                        <h4>Костюмная шерсть</h4>
+                        <p>Идеальный вариант</p>
+                    </div>
+                    <div class="fabric-item">
+                        <div class="icon">✨</div>
+                        <h4>Габардин</h4>
+                        <p>Хорошая драпируемость</p>
+                    </div>
+                    <div class="fabric-item">
+                        <div class="icon"></div>
+                        <h4>Плотный вискозный</h4>
+                        <p>Лёгкий вариант</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pattern-card">
+                <h3>📏 Расход ткани</h3>
+                <table class="measurements-table">
+                    <tr><th>Размер</th><th>Основная ткань</th><th>Подклад</th></tr>
+                    <tr><td>42-44</td><td>1.1 м</td><td>0.9 м</td></tr>
+                    <tr><td>46-48</td><td>1.2 м</td><td>1.0 м</td></tr>
+                    <tr><td>50-52</td><td>1.3 м</td><td>1.1 м</td></tr>
+                    <tr><td>54-56</td><td>1.4 м</td><td>1.2 м</td></tr>
+                </table>
+            </div>
+
+            <div class="pattern-card">
+                <h3>🎨 Фурнитура</h3>
+                <table class="measurements-table">
+                    <tr><th>Элемент</th><th>Количество</th><th>Размер</th></tr>
+                    <tr><td>Пуговицы декор.</td><td>2 шт</td><td>⌀ 1.5 см</td></tr>
+                    <tr><td>Молния потайная</td><td>1 шт</td><td>18 см</td></tr>
+                    <tr><td>Клеевая прокладка</td><td>0.3 м</td><td>Для кокетки</td></tr>
+                    <tr><td>Нитки</td><td>1 кат.</td><td>40ЛЛ</td></tr>
+                </table>
+            </div>
+
+            <div class="pattern-card">
+                <h3>📐 Ширина ткани</h3>
+                <table class="measurements-table">
+                    <tr><th>Ширина рулона</th><th>Расход (разм. 46)</th></tr>
+                    <tr><td>140 см</td><td>1.2 м</td></tr>
+                    <tr><td>150 см</td><td>1.15 м</td></tr>
+                    <tr><td>180 см</td><td>0.8 м</td></tr>
+                </table>
+            </div>
+
+            <div class="pattern-card">
+                <h3>🎨 Цвет ткани по образцу</h3>
+                <div style="display: flex; align-items: center; gap: 16px; margin-top: 12px;">
+                    <div style="width: 80px; height: 80px; background: #0a1628; border-radius: 12px; border: 2px solid #ddd;"></div>
+                    <div>
+                        <p style="font-weight: 600; font-size: 15px;">Тёмно-синий (Navy)</p>
+                        <p style="font-size: 13px; color: #666;">HEX: #0a1628</p>
+                        <p style="font-size: 12px; color: #888;">Плотная костюмная ткань</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-callout">
+            <strong>💡 Совет:</strong> Для отлетной кокетки рекомендуется использовать ту же ткань, что и для основного изделия. Кокетку обязательно продублировать клеевой прокладкой для сохранения формы. Подклад выкраивается из вискозной подкладочной ткани.
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const sizeData = {
+        44: {
+            st: 70, sb: 96, dlina: 57, dlg: 20, dts: 41,
+            shper: 17.5, shzad: 18.5,
+            rt: 1.5, rb: 1.0,
+            widthFront: 24.0, widthBack: 24.5,
+            dartFront: 3.0, dartBack1: 2.5, dartBack2: 2.0
+        },
+        46: {
+            st: 74, sb: 100, dlina: 57, dlg: 20, dts: 42,
+            shper: 18.0, shzad: 19.0,
+            rt: 1.5, rb: 1.0,
+            widthFront: 25.0, widthBack: 25.5,
+            dartFront: 3.0, dartBack1: 2.5, dartBack2: 2.0
+        },
+        48: {
+            st: 78, sb: 104, dlina: 57, dlg: 20, dts: 43,
+            shper: 18.5, shzad: 19.5,
+            rt: 1.5, rb: 1.0,
+            widthFront: 26.0, widthBack: 26.5,
+            dartFront: 3.0, dartBack1: 2.5, dartBack2: 2.0
+        },
+        50: {
+            st: 82, sb: 108, dlina: 57, dlg: 20, dts: 44,
+            shper: 19.0, shzad: 20.0,
+            rt: 1.5, rb: 1.0,
+            widthFront: 27.0, widthBack: 27.5,
+            dartFront: 3.0, dartBack1: 2.5, dartBack2: 2.0
+        },
+        52: {
+            st: 86, sb: 112, dlina: 57, dlg: 20, dts: 45,
+            shper: 19.5, shzad: 20.5,
+            rt: 1.5, rb: 1.0,
+            widthFront: 28.0, widthBack: 28.5,
+            dartFront: 3.0, dartBack1: 2.5, dartBack2: 2.0
+        },
+        54: {
+            st: 90, sb: 116, dlina: 57, dlg: 20, dts: 46,
+            shper: 20.0, shzad: 21.0,
+            rt: 1.5, rb: 1.0,
+            widthFront: 29.0, widthBack: 29.5,
+            dartFront: 3.0, dartBack1: 2.5, dartBack2: 2.0
+        }
+    };
+
+    let currentSize = 44;
+
+    function selectSize(size) {
+        currentSize = size;
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.classList.toggle('active', parseInt(btn.textContent) === size);
+        });
+        updateMeasurements(size);
+    }
+
+    function updateMeasurements(size) {
+        const data = sizeData[size];
+        document.getElementById('sizeLabel').textContent = size;
+
+        const tbody = document.getElementById('measurementsBody');
+        tbody.innerHTML = `
+            <tr><td>Полуобхват талии</td><td>Ст</td><td>${data.st}</td><td>Обмер по самому узкому месту</td></tr>
+            <tr><td>Полуобхват бедер</td><td>Сб</td><td>${data.sb}</td><td>По самым выступающим точкам ягодиц</td></tr>
+            <tr><td>Длина изделия</td><td>Ди</td><td>${data.dlina}</td><td>От линии талии до желаемой длины</td></tr>
+            <tr><td>Длина до линии бедер</td><td>Длб</td><td>${data.dlg}</td><td>От талии до линии бедер</td></tr>
+            <tr><td>Длина до талии спинки</td><td>Дтс</td><td>${data.dts}</td><td>От 7-го шейного позвонка</td></tr>
+            <tr><td>Ширина переда</td><td>Шп</td><td>${data.shper}</td><td>Между передними углами подмышечных впадин</td></tr>
+            <tr><td>Ширина спинки</td><td>Шс</td><td>${data.shzad}</td><td>Между задними углами подмышечных впадин</td></tr>
+        `;
+
+        const calcBody = document.getElementById('calculatedTable');
+        calcBody.innerHTML = `
+            <tr><td>Ширина переднего полотнища</td><td>${data.widthFront} см</td></tr>
+            <tr><td>Ширина заднего полотнища</td><td>${data.widthBack} см</td></tr>
+            <tr><td>Раствор вытачки переднего</td><td>${data.dartFront} см</td></tr>
+            <tr><td>Раствор вытачки заднего (1)</td><td>${data.dartBack1} см</td></tr>
+            <tr><td>Раствор вытачки заднего (2)</td><td>${data.dartBack2} см</td></tr>
+            <tr><td>Ширина кокетки</td><td>4.0 см</td></tr>
+            <tr><td>Нахлёст кокетки</td><td>0.5 см</td></tr>
+        `;
+
+        // Update front params
+        document.getElementById('frontParamsTable').innerHTML = `
+            <tr><td>Ширина по талии (с прибавкой)</td><td>${(data.widthFront + 1).toFixed(1)} см</td></tr>
+            <tr><td>Ширина по бедрам (с прибавкой)</td><td>${(data.sb / 2 + 2).toFixed(1)} см</td></tr>
+            <tr><td>Длина юбки</td><td>${data.dlina} см</td></tr>
+            <tr><td>Линия бедер от талии</td><td>${data.dlg} см</td></tr>
+            <tr><td>Раствор вытачки</td><td>${data.dartFront} см</td></tr>
+            <tr><td>Глубина вытачки</td><td>8 см</td></tr>
+        `;
+
+        document.getElementById('overlayParamsTable').innerHTML = `
+            <tr><td>Ширина детали</td><td>от ЦП до бокового шва</td></tr>
+            <tr><td>Начало диагонали</td><td>От бокового шва, 20 см вниз от талии</td></tr>
+            <tr><td>Конец диагонали</td><td>На линии низа, 20 см от ЦП</td></tr>
+            <tr><td>Пуговицы</td><td>2 шт, ⌀1.5 см, белые</td></tr>
+            <tr><td>Расстояние между пуговицами</td><td>4 см</td></tr>
+            <tr><td>Отступ первой пуговицы от талии</td><td>9 см</td></tr>
+        `;
+
+        // Update back params
+        document.getElementById('backParamsTable').innerHTML = `
+            <tr><td>Ширина по талии (с прибавкой)</td><td>${(data.widthBack + 1).toFixed(1)} см</td></tr>
+            <tr><td>Ширина по бедрам (с прибавкой)</td><td>${(data.sb / 2 + 2).toFixed(1)} см</td></tr>
+            <tr><td>Длина юбки</td><td>${data.dlina} см</td></tr>
+            <tr><td>Разрез (шлица)</td><td>20 см</td></tr>
+            <tr><td>Молния</td><td>18 см, потайная</td></tr>
+            <tr><td>Вытачка 1</td><td>${data.dartBack1} см, глубина 10 см</td></tr>
+            <tr><td>Вытачка 2</td><td>${data.dartBack2} см, глубина 9 см</td></tr>
+        `;
+
+        // Update yoke params
+        document.getElementById('yokeParamsTable').innerHTML = `
+            <tr><td>Ширина кокетки</td><td>4.0 см</td></tr>
+            <tr><td>Нахлёст на полотнище</td><td>0.5 см</td></tr>
+            <tr><td>Длина кокетки</td><td>${(data.st + 2).toFixed(1)} см + припуски</td></tr>
+            <tr><td>Припуск верхний край</td><td>1.0 см</td></tr>
+            <tr><td>Припуск нижний край</td><td>1.5 см</td></tr>
+            <tr><td>Дублирование</td><td>Клеевая прокладка</td></tr>
+        `;
+    }
+
+    function showView(viewName) {
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+
+        document.getElementById(`view-${viewName}`).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // Initialize
+    updateMeasurements(44);
+</script>
+
+</body>
+</html>
+
